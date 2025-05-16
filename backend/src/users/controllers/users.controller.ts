@@ -8,6 +8,7 @@ import {
   Delete,
   HttpCode,
   HttpStatus,
+  UseGuards,
 } from '@nestjs/common';
 import { UsersService } from '../services/users.service';
 import { CreateUserDto } from '../dto/create-user.dto';
@@ -22,12 +23,16 @@ import {
   ApiParam,
   ApiTags,
 } from '@nestjs/swagger';
+import { Public } from 'src/auth/decorators/public.decorator';
+import { RolesGuard } from 'src/auth/guards/roles.guard';
+import { Roles } from 'src/auth/decorators/roles.decorator';
 
 @ApiTags('users')
 @Controller('users')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
+  @Public()
   @Post()
   @HttpCode(HttpStatus.CREATED)
   @ApiBody({ type: CreateUserDto })
@@ -52,6 +57,8 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(RolesGuard)
+  @Roles('ADMIN')
   @HttpCode(HttpStatus.OK)
   @ApiParam({ name: 'id', type: String })
   @ApiBody({ type: UpdateUserDto })
