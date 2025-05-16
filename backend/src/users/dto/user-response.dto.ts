@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { UserRole } from '@prisma/client';
+import { Exclude } from 'class-transformer';
 
 export class UserResponseDto {
   @ApiProperty()
@@ -11,6 +12,9 @@ export class UserResponseDto {
   @ApiProperty()
   email: string;
 
+  @Exclude()
+  password: string;
+
   @ApiProperty({ enum: UserRole })
   role: UserRole;
 
@@ -19,4 +23,7 @@ export class UserResponseDto {
 
   @ApiProperty()
   updatedAt: Date;
+
+  @Exclude()
+  deletedAt: Date | null;
 }
