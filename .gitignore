@@ -1,0 +1,38 @@
+# Node modules do backend
+/backend/node_modules/
+/backend/dist/
+/backend/.env
+
+# Node modules do Expo / mobile
+/mobile/node_modules/
+/mobile/.expo/
+/mobile/.expo-shared/
+/mobile/.vscode/
+/mobile/.env
+
+# Logs e arquivos temporários gerais
+*.log
+*.log.*
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Pastas comuns de sistema
+.DS_Store
+Thumbs.db
+
+# Build outputs
+dist/
+build/
+
+# IDE/editor
+.vscode/
+.idea/
+
+# arquivos temporários do sistema
+*.swp
+*.swo
+
+# npm package lock
+package-lock.json
+yarn.lock
