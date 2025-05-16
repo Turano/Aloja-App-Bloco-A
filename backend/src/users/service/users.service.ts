@@ -4,6 +4,7 @@ import { CreateUserDto } from '../dto/create-user.dto';
 import { UpdateUserDto } from '../dto/update-user.dto';
 import * as bcrypt from 'bcrypt';
 import { ConfigService } from '@nestjs/config';
+import { UserResponseDto } from '../dto/user-response.dto';
 
 @Injectable()
 export class UsersService {
@@ -19,7 +20,7 @@ export class UsersService {
     );
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const hashedPassword = await bcrypt.hash(
       createUserDto.password,
       this.saltRounds,
@@ -32,11 +33,11 @@ export class UsersService {
     });
   }
 
-  async findAll() {
+  async findAll(): Promise<UserResponseDto[]> {
     return this.prisma.user.findMany();
   }
 
-  async findOne(id: string) {
+  async findOne(id: string): Promise<UserResponseDto> {
     const user = await this.prisma.user.findUnique({
       where: { id },
     });
@@ -48,7 +49,10 @@ export class UsersService {
     return user;
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(
+    id: string,
+    updateUserDto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
     await this.findOne(id);
 
     if (updateUserDto.password) {
@@ -64,10 +68,10 @@ export class UsersService {
     });
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<void> {
     await this.findOne(id);
 
-    return this.prisma.user.delete({
+    await this.prisma.user.delete({
       where: { id },
     });
   }
